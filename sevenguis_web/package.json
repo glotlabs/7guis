@@ -1,0 +1,26 @@
+{
+    "name": "sevenguis",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+      "build-dev": "esbuild src/home_page.ts --bundle --format=esm --target=es2020 --outfile=../dist/home_page.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/polyester-web/polyester-templates.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/polyester-web/polyester-templates/issues"
+    },
+    "homepage": "https://github.com/polyester-web/polyester-templates#readme",
+    "dependencies": {
+      "polyester": "file:../../polyester-js"
+    },
+    "devDependencies": {
+      "@tailwindcss/forms": "^0.5.2",
+      "esbuild": "^0.14.49",
+      "tailwindcss": "^3.1.6"
+    }
+  }

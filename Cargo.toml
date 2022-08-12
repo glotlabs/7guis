@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "sevenguis_lib",
+    "sevenguis_cli",
+    "sevenguis_wasm",
+]
