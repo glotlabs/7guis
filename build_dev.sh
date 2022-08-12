@@ -22,6 +22,7 @@ echo "Building wasm..."
 echo
 echo "Generating html"
 cargo run -p sevenguis_cli -- home_page > dist/index.html
+cargo run -p sevenguis_cli -- temperature_page > dist/temperature.html
 
 
 echo
