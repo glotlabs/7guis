@@ -3,9 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-      "build-dev": "npm run build-home-page-dev && npm run build-temperature-page-dev",
+      "build-dev": "npm run build-home-page-dev && npm run build-temperature-page-dev && npm run build-timer-page-dev",
       "build-home-page-dev": "esbuild src/home_page.ts --bundle --format=esm --target=es2020 --outfile=../dist/home_page.js",
-      "build-temperature-page-dev": "esbuild src/temperature_page.ts --bundle --format=esm --target=es2020 --outfile=../dist/temperature_page.js"
+      "build-temperature-page-dev": "esbuild src/temperature_page.ts --bundle --format=esm --target=es2020 --outfile=../dist/temperature_page.js",
+      "build-timer-page-dev": "esbuild src/timer_page.ts --bundle --format=esm --target=es2020 --outfile=../dist/timer_page.js"
     },
     "repository": {
       "type": "git",
