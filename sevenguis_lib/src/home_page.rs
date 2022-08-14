@@ -2,6 +2,7 @@ use maud::html;
 use polyester::browser;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
+use polyester::browser::SubscriptionMsg;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
 use serde::{Deserialize, Serialize};
@@ -31,10 +32,10 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
         (model, effects)
     }
 
-    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg> {
+    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_click(&model.ids.increment, Msg::Increment),
-            browser::on_click(&model.ids.decrement, Msg::Decrement),
+            browser::on_click(&model.ids.increment, SubscriptionMsg::pure(Msg::Increment)),
+            browser::on_click(&model.ids.decrement, SubscriptionMsg::pure(Msg::Decrement)),
         ]
     }
 

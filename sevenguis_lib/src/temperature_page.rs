@@ -1,8 +1,9 @@
 use maud::html;
 use polyester::browser;
+use polyester::browser::dom;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
-use polyester::browser::Value;
+use polyester::browser::SubscriptionMsg;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
 use serde::{Deserialize, Serialize};
@@ -34,15 +35,21 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
         (model, effects)
     }
 
-    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg> {
+    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
             browser::on_input(
                 &model.ids.celsius,
-                Msg::CelsiusChanged(Value::capture_string_from_element(&model.ids.celsius)),
+                SubscriptionMsg::effectful(
+                    Msg::CelsiusChanged,
+                    dom::element_value_raw(&model.ids.celsius),
+                ),
             ),
             browser::on_input(
                 &model.ids.fahrenheit,
-                Msg::FahrenheitChanged(Value::capture_from_element(&model.ids.fahrenheit)),
+                SubscriptionMsg::effectful(
+                    Msg::FahrenheitChanged,
+                    dom::element_value_raw(&model.ids.fahrenheit),
+                ),
             ),
         ]
     }

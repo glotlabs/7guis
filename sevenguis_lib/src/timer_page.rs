@@ -1,7 +1,10 @@
 use maud::html;
 use polyester::browser;
+use polyester::browser::dom;
+use polyester::browser::time as time_effect;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
+use polyester::browser::SubscriptionMsg;
 use polyester::browser::Value;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
@@ -41,20 +44,27 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
         (model, effects)
     }
 
-    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg> {
+    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
             browser::on_input(
                 &model.ids.duration,
-                Msg::MaxDurationChanged(Value::capture_from_element(&model.ids.duration)),
+                SubscriptionMsg::effectful(
+                    Msg::MaxDurationChanged,
+                    dom::element_value(&model.ids.duration),
+                ),
             ),
-            browser::on_click(&model.ids.reset, Msg::ResetClicked),
+            browser::on_click(&model.ids.reset, SubscriptionMsg::pure(Msg::ResetClicked)),
             browser::interval(
                 "current-time",
                 100,
-                Msg::GotTime(Value::capture_current_time()),
+                SubscriptionMsg::effectful(Msg::GotTime, time_effect::current_time()),
             ),
             if model.elapsed < model.max_duration {
-                browser::interval("timer", 200, Msg::OnTick(Value::capture_current_time()))
+                browser::interval(
+                    "timer",
+                    200,
+                    SubscriptionMsg::effectful(Msg::OnTick, time_effect::current_time()),
+                )
             } else {
                 browser::no_subscription()
             },
