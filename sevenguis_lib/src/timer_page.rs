@@ -10,6 +10,7 @@ use polyester::page::Page;
 use polyester::page::PageMarkup;
 use polyester::time;
 use serde::{Deserialize, Serialize};
+use std::time::Duration;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -35,8 +36,8 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
             ids: initial_ids(),
             current_time: self.initial_time,
             previous_time: self.initial_time,
-            max_duration: std::time::Duration::from_secs(15),
-            elapsed: std::time::Duration::from_secs(0),
+            max_duration: Duration::from_secs(15),
+            elapsed: Duration::from_secs(0),
         };
 
         let effects = vec![];
@@ -55,14 +56,12 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
             ),
             browser::on_click(&model.ids.reset, SubscriptionMsg::pure(Msg::ResetClicked)),
             browser::interval(
-                "current-time",
-                100,
+                Duration::from_millis(100),
                 SubscriptionMsg::effectful(Msg::GotTime, time_effect::current_time()),
             ),
             if model.elapsed < model.max_duration {
                 browser::interval(
-                    "timer",
-                    200,
+                    Duration::from_millis(200),
                     SubscriptionMsg::effectful(Msg::OnTick, time_effect::current_time()),
                 )
             } else {
@@ -82,7 +81,7 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
                     .parse::<u64>()
                     .unwrap_or(model.max_duration.as_millis() as u64);
 
-                model.max_duration = std::time::Duration::from_millis(max_duration);
+                model.max_duration = Duration::from_millis(max_duration);
                 if model.elapsed > model.max_duration {
                     model.elapsed = model.max_duration
                 }
@@ -112,7 +111,7 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
             }
 
             Msg::ResetClicked => {
-                model.elapsed = std::time::Duration::from_secs(0);
+                model.elapsed = Duration::from_secs(0);
                 model.previous_time = model.current_time;
 
                 Ok(vec![])
