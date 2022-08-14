@@ -1,7 +1,7 @@
 use polyester::page::wasm;
 use polyester::page::Page;
 use polyester_macro::impl_wasm_page;
-use sevenguis_lib::temperature_page;
+use sevenguis_core::temperature_page;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]

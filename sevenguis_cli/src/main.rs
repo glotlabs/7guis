@@ -1,8 +1,8 @@
 use polyester::page::Page;
 use polyester::time;
-use sevenguis_lib::home_page;
-use sevenguis_lib::temperature_page;
-use sevenguis_lib::timer_page;
+use sevenguis_core::home_page;
+use sevenguis_core::temperature_page;
+use sevenguis_core::timer_page;
 use std::env;
 use std::time::SystemTime;
 

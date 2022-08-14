@@ -159,11 +159,11 @@ version = "0.1.0"
 dependencies = [
  "polyester",
  "serde_json",
- "sevenguis_lib",
+ "sevenguis_core",
 ]
 
 [[package]]
-name = "sevenguis_lib"
+name = "sevenguis_core"
 version = "0.1.0"
 dependencies = [
  "maud",
@@ -179,7 +179,7 @@ dependencies = [
  "polyester",
  "polyester_macro",
  "serde",
- "sevenguis_lib",
+ "sevenguis_core",
  "wasm-bindgen",
 ]
 

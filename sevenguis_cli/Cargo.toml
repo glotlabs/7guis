@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sevenguis_lib = { path = "../sevenguis_lib" }
+sevenguis_core = { path = "../sevenguis_core" }
 polyester = { path = "../../polyester-rs/polyester" }
 serde_json = "1.0.81"

@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-sevenguis_lib = { path = "../sevenguis_lib" }
+sevenguis_core = { path = "../sevenguis_core" }
 polyester = { path = "../../polyester-rs/polyester" }
 polyester_macro = { path = "../../polyester-rs/polyester_macro" }
 serde = { version = "1.0.137", features = ["derive"] }
