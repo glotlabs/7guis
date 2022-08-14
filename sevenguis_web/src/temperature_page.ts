@@ -8,4 +8,6 @@ import { defaultDebugConfig } from "polyester/src/logger";
   const polyester = new Polyester(new TemperaturePage(), {
     loggerConfig: defaultDebugConfig(),
   });
+
+  polyester.init();
 })();

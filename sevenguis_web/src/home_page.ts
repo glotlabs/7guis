@@ -9,4 +9,6 @@ import { defaultDebugConfig } from "polyester/src/logger";
   const polyester = new Polyester(new HomePage(), {
     loggerConfig: defaultDebugConfig(),
   });
+
+  polyester.init();
 })();

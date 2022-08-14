@@ -8,4 +8,5 @@ import { posixFromMilliseconds } from "polyester/src/time";
   const currentTime = posixFromMilliseconds(Date.now());
 
   const polyester = new Polyester(new TimerPage(currentTime));
+  polyester.init();
 })();
