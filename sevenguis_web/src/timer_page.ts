@@ -1,4 +1,4 @@
-import init, { TimerPage } from "../wasm/sevenguis.js";
+import init, { timerPage } from "../wasm/sevenguis.js";
 import { Polyester } from "polyester";
 import { posixFromMilliseconds } from "polyester/src/time";
 
@@ -7,6 +7,6 @@ import { posixFromMilliseconds } from "polyester/src/time";
 
   const currentTime = posixFromMilliseconds(Date.now());
 
-  const polyester = new Polyester(new TimerPage(currentTime));
+  const polyester = new Polyester(timerPage(currentTime));
   polyester.init();
 })();
