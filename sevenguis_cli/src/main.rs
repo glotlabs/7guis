@@ -1,5 +1,6 @@
 use polyester::page::Page;
 use polyester::time;
+use sevenguis_core::crud_page;
 use sevenguis_core::home_page;
 use sevenguis_core::temperature_page;
 use sevenguis_core::timer_page;
@@ -24,6 +25,11 @@ fn main() {
 
         ["timer_page"] => {
             let page = timer_page::TimerPage { initial_time: now };
+            render_html(page);
+        }
+
+        ["crud_page"] => {
+            let page = crud_page::CrudPage {};
             render_html(page);
         }
 
