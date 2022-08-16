@@ -86,7 +86,7 @@ fn view_head() -> maud::Markup {
     html! {
         title { "Home page" }
         link rel="stylesheet" href="./app.css";
-        script async type="module" src="./home_page.js" {}
+        script defer type="module" src="./home_page.js" {}
     }
 }
 

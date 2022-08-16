@@ -121,7 +121,7 @@ fn view_head() -> maud::Markup {
     html! {
         title { "Temperature converter - polyester" }
         link rel="stylesheet" href="./app.css";
-        script async type="module" src="./temperature_page.js" {}
+        script defer type="module" src="./temperature_page.js" {}
     }
 }
 
