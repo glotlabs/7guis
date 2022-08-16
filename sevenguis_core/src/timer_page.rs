@@ -5,6 +5,7 @@ use polyester::browser::time as time_effect;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
 use polyester::browser::SubscriptionMsg;
+use polyester::browser::ToDomId;
 use polyester::browser::Value;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
@@ -15,7 +16,6 @@ use std::time::Duration;
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Model {
-    pub ids: DomIds,
     pub current_time: time::Posix,
     pub previous_time: time::Posix,
     pub max_duration: std::time::Duration,
@@ -33,7 +33,6 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
 
     fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
         let model = Model {
-            ids: initial_ids(),
             current_time: self.initial_time,
             previous_time: self.initial_time,
             max_duration: Duration::from_secs(15),
@@ -48,13 +47,16 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
     fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
             browser::on_input(
-                &model.ids.duration,
+                &Id::Duration.to_dom_id(),
                 SubscriptionMsg::effectful(
                     Msg::MaxDurationChanged,
-                    dom::element_value(&model.ids.duration),
+                    dom::element_value(&Id::Duration.to_dom_id()),
                 ),
             ),
-            browser::on_click(&model.ids.reset, SubscriptionMsg::pure(Msg::ResetClicked)),
+            browser::on_click(
+                &Id::Reset.to_dom_id(),
+                SubscriptionMsg::pure(Msg::ResetClicked),
+            ),
             browser::interval(
                 Duration::from_millis(100),
                 SubscriptionMsg::effectful(Msg::GotTime, time_effect::current_time()),
@@ -135,6 +137,14 @@ fn parse_current_time(value: &Value) -> Result<time::Posix, String> {
     Ok(current_time)
 }
 
+#[derive(strum_macros::Display, polyester_macro::ToDomId)]
+#[strum(serialize_all = "kebab-case")]
+enum Id {
+    Elapsed,
+    Duration,
+    Reset,
+}
+
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
@@ -147,22 +157,6 @@ pub enum Msg {
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum CustomEffect {}
-
-#[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct DomIds {
-    pub elapsed: DomId,
-    pub duration: DomId,
-    pub reset: DomId,
-}
-
-fn initial_ids() -> DomIds {
-    DomIds {
-        elapsed: "elapsed".into(),
-        duration: "duration".into(),
-        reset: "reset".into(),
-    }
-}
 
 fn view_head() -> maud::Markup {
     html! {
@@ -186,11 +180,11 @@ fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
         div id=(page_id) {
             div class="p-4" {
                 div {
-                    label for=(model.ids.elapsed) {
+                    label for=(Id::Elapsed) {
                         "Elapsed time"
                     }
                     div {
-                        meter id=(model.ids.elapsed) min="0" max=(max_elapsed) value=(elapsed) class="w-32" {}
+                        meter id=(Id::Elapsed) min="0" max=(max_elapsed) value=(elapsed) class="w-32" {}
                     }
                     div {
                         (elapsed_text)
@@ -198,15 +192,15 @@ fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
                 }
 
                 div class="mt-4" {
-                    label for=(model.ids.duration) {
+                    label for=(Id::Duration) {
                         "Duration"
                     }
                     div {
-                        input id=(model.ids.duration) type="range" min="0" max="30000" value=(max_duration) class="w-32";
+                        input id=(Id::Duration) type="range" min="0" max="30000" value=(max_duration) class="w-32";
                     }
                 }
 
-                button id=(model.ids.reset) class="mt-4 w-32 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
+                button id=(Id::Duration) class="mt-4 w-32 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
                     "Reset"
                 }
             }

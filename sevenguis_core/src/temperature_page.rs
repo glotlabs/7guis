@@ -4,6 +4,7 @@ use polyester::browser::dom;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
 use polyester::browser::SubscriptionMsg;
+use polyester::browser::ToDomId;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
 use serde::{Deserialize, Serialize};
@@ -11,7 +12,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Model {
-    pub ids: DomIds,
     pub celsius: Option<i32>,
     pub fahrenheit: Option<i32>,
 }
@@ -25,7 +25,6 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
 
     fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
         let model = Model {
-            ids: initial_ids(),
             celsius: None,
             fahrenheit: None,
         };
@@ -38,17 +37,17 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
     fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
             browser::on_input(
-                &model.ids.celsius,
+                &Id::Celsius.to_dom_id(),
                 SubscriptionMsg::effectful(
                     Msg::CelsiusChanged,
-                    dom::element_value_raw(&model.ids.celsius),
+                    dom::element_value_raw(&Id::Celsius.to_dom_id()),
                 ),
             ),
             browser::on_input(
-                &model.ids.fahrenheit,
+                &Id::Fahrenheit.to_dom_id(),
                 SubscriptionMsg::effectful(
                     Msg::FahrenheitChanged,
-                    dom::element_value_raw(&model.ids.fahrenheit),
+                    dom::element_value_raw(&Id::Fahrenheit.to_dom_id()),
                 ),
             ),
         ]
@@ -100,6 +99,13 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
     }
 }
 
+#[derive(strum_macros::Display, polyester_macro::ToDomId)]
+#[strum(serialize_all = "kebab-case")]
+enum Id {
+    Celsius,
+    Fahrenheit,
+}
+
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
@@ -110,20 +116,6 @@ pub enum Msg {
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum CustomEffect {}
-
-#[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct DomIds {
-    pub celsius: DomId,
-    pub fahrenheit: DomId,
-}
-
-fn initial_ids() -> DomIds {
-    DomIds {
-        celsius: "celsius".into(),
-        fahrenheit: "fahrenheit".into(),
-    }
-}
 
 fn view_head() -> maud::Markup {
     html! {
@@ -141,20 +133,20 @@ fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
         div id=(page_id) {
             div class="flex p-4" {
                 div {
-                    label class="block text-sm font-medium text-gray-700" for=(model.ids.celsius) {
+                    label class="block text-sm font-medium text-gray-700" for=(Id::Celsius) {
                         "Celsius"
                     }
                     div class="mt-1" {
-                        input id=(model.ids.celsius) value=(celsius) class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="number";
+                        input id=(Id::Celsius) value=(celsius) class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="number";
                     }
                 }
 
                 div class="ml-4"{
-                    label class="block text-sm font-medium text-gray-700" for=(model.ids.fahrenheit) {
+                    label class="block text-sm font-medium text-gray-700" for=(Id::Fahrenheit) {
                         "Fahrenheit"
                     }
                     div class="mt-1" {
-                        input id=(model.ids.fahrenheit) value=(fahrenheit) class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="number";
+                        input id=(Id::Fahrenheit) value=(fahrenheit) class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="number";
                     }
                 }
             }

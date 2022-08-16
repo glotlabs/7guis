@@ -3,6 +3,7 @@ use polyester::browser;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
 use polyester::browser::SubscriptionMsg;
+use polyester::browser::ToDomId;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
 use serde::{Deserialize, Serialize};
@@ -10,7 +11,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Model {
-    pub ids: DomIds,
     pub count: isize,
 }
 
@@ -22,20 +22,23 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
     }
 
     fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
-        let model = Model {
-            ids: initial_ids(),
-            count: 0,
-        };
+        let model = Model { count: 0 };
 
         let effects = vec![];
 
         (model, effects)
     }
 
-    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
+    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_click(&model.ids.increment, SubscriptionMsg::pure(Msg::Increment)),
-            browser::on_click(&model.ids.decrement, SubscriptionMsg::pure(Msg::Decrement)),
+            browser::on_click(
+                &Id::Increment.to_dom_id(),
+                SubscriptionMsg::pure(Msg::Increment),
+            ),
+            browser::on_click(
+                &Id::Decrement.to_dom_id(),
+                SubscriptionMsg::pure(Msg::Decrement),
+            ),
         ]
     }
 
@@ -61,6 +64,13 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
     }
 }
 
+#[derive(strum_macros::Display, polyester_macro::ToDomId)]
+#[strum(serialize_all = "kebab-case")]
+enum Id {
+    Increment,
+    Decrement,
+}
+
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
@@ -71,20 +81,6 @@ pub enum Msg {
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum CustomEffect {}
-
-#[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct DomIds {
-    pub increment: DomId,
-    pub decrement: DomId,
-}
-
-fn initial_ids() -> DomIds {
-    DomIds {
-        increment: "increment".into(),
-        decrement: "decrement".into(),
-    }
-}
 
 fn view_head() -> maud::Markup {
     html! {
@@ -98,13 +94,13 @@ fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
     html! {
         div id=(page_id) {
             div class="flex p-4" {
-                button id=(model.ids.decrement) class="w-28 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
+                button id=(Id::Decrement) class="w-28 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
                     "Decrement"
                 }
                 div class="mx-4 w-28" {
                     input value=(model.count) class="text-center shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" readonly;
                 }
-                button id=(model.ids.increment) class="w-28 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
+                button id=(Id::Increment) class="w-28 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
                     "Increment"
                 }
             }
