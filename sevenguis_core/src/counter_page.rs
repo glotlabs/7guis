@@ -14,9 +14,9 @@ pub struct Model {
     pub count: isize,
 }
 
-pub struct HomePage {}
+pub struct CounterPage {}
 
-impl Page<Model, Msg, CustomEffect> for HomePage {
+impl Page<Model, Msg, CustomEffect> for CounterPage {
     fn id(&self) -> DomId {
         DomId::new("sevenguis")
     }
@@ -86,44 +86,22 @@ fn view_head() -> maud::Markup {
     html! {
         title { "Home page" }
         link rel="stylesheet" href="./app.css";
-        script defer type="module" src="./home_page.js" {}
+        script defer type="module" src="./counter_page.js" {}
     }
 }
 
-fn view_body(page_id: &browser::DomId, _model: &Model) -> maud::Markup {
+fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
     html! {
-        div id=(page_id) class="p-4" {
-            h1 class="text-xl text-bold" { "7GUIs demos" }
-
-            ul class="mt-4" {
-                li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/counter.html" {
-                        "Counter"
-                    }
+        div id=(page_id) {
+            div class="flex p-4" {
+                button id=(Id::Decrement) class="w-28 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
+                    "Decrement"
                 }
-
-                li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/temperature.html" {
-                        "Temperature Converter"
-                    }
+                div class="mx-4 w-28" {
+                    input value=(model.count) class="text-center shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" readonly;
                 }
-
-                li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/flight.html" {
-                        "Flight Booker"
-                    }
-                }
-
-                li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/timer.html" {
-                        "Timer"
-                    }
-                }
-
-                li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/crud.html" {
-                        "CRUD"
-                    }
+                button id=(Id::Increment) class="w-28 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
+                    "Increment"
                 }
             }
         }

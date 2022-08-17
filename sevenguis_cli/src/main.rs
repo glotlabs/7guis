@@ -1,5 +1,6 @@
 use polyester::page::Page;
 use polyester::time;
+use sevenguis_core::counter_page;
 use sevenguis_core::crud_page;
 use sevenguis_core::flight_page;
 use sevenguis_core::home_page;
@@ -16,6 +17,11 @@ fn main() {
     match args[1..] {
         ["home_page"] => {
             let page = home_page::HomePage {};
+            render_html(page);
+        }
+
+        ["counter_page"] => {
+            let page = counter_page::CounterPage {};
             render_html(page);
         }
 
