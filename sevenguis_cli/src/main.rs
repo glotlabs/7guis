@@ -1,6 +1,7 @@
 use polyester::page::Page;
 use polyester::time;
 use sevenguis_core::crud_page;
+use sevenguis_core::flight_page;
 use sevenguis_core::home_page;
 use sevenguis_core::temperature_page;
 use sevenguis_core::timer_page;
@@ -33,6 +34,11 @@ fn main() {
             render_html(page);
         }
 
+        ["flight_page"] => {
+            let page = flight_page::FlightPage { initial_time: now };
+            render_html(page);
+        }
+
         _ => {
             println!("Invalid command");
         }
@@ -40,8 +46,11 @@ fn main() {
 }
 
 fn posix_now() -> time::Posix {
-    let now = SystemTime::now();
-    let millis = now.elapsed().unwrap().as_millis();
+    let millis = SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .unwrap()
+        .as_millis();
+
     time::Posix::from_millis(millis as i128)
 }
 

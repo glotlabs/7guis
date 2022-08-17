@@ -34,7 +34,7 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
         (model, effects)
     }
 
-    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
+    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
             browser::on_input(
                 &Id::Celsius.to_dom_id(),
