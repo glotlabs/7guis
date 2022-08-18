@@ -72,13 +72,13 @@ impl Page<Model, Msg, CustomEffect> for CrudPage {
 
     fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_input(&Id::Filter.to_dom_id(), Msg::FilterChanged),
-            browser::on_input(&Id::FirstName.to_dom_id(), Msg::FirstNameChanged),
-            browser::on_input(&Id::LastName.to_dom_id(), Msg::LastNameChanged),
-            browser::on_change(&Id::People.to_dom_id(), Msg::SelectedPersonChanged),
-            browser::on_click(&Id::Create.to_dom_id(), Msg::Create),
-            browser::on_click(&Id::Update.to_dom_id(), Msg::Update),
-            browser::on_click(&Id::Delete.to_dom_id(), Msg::Delete),
+            browser::on_input(&Id::Filter, Msg::FilterChanged),
+            browser::on_input(&Id::FirstName, Msg::FirstNameChanged),
+            browser::on_input(&Id::LastName, Msg::LastNameChanged),
+            browser::on_change(&Id::People, Msg::SelectedPersonChanged),
+            browser::on_click(&Id::Create, Msg::Create),
+            browser::on_click(&Id::Update, Msg::Update),
+            browser::on_click(&Id::Delete, Msg::Delete),
         ]
     }
 

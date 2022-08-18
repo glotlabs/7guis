@@ -53,15 +53,15 @@ impl Page<Model, Msg, CustomEffect> for FlightPage {
         match model {
             Model::Drafting(_) => {
                 vec![
-                    browser::on_change(&Id::FlightType.to_dom_id(), Msg::FlightTypeChanged),
-                    browser::on_change_string(&Id::StartDate.to_dom_id(), Msg::StartDateChanged),
-                    browser::on_change_string(&Id::ReturnDate.to_dom_id(), Msg::ReturnDateChanged),
-                    browser::on_click(&Id::Book.to_dom_id(), Msg::BookFlight),
+                    browser::on_change(&Id::FlightType, Msg::FlightTypeChanged),
+                    browser::on_change_string(&Id::StartDate, Msg::StartDateChanged),
+                    browser::on_change_string(&Id::ReturnDate, Msg::ReturnDateChanged),
+                    browser::on_click(&Id::Book, Msg::BookFlight),
                 ]
             }
 
             Model::Booked(_) => {
-                vec![browser::on_click(&Id::Reset.to_dom_id(), Msg::Reset)]
+                vec![browser::on_click(&Id::Reset, Msg::Reset)]
             }
         }
     }

@@ -44,8 +44,8 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
 
     fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_input(&Id::Duration.to_dom_id(), Msg::MaxDurationChanged),
-            browser::on_click(&Id::Reset.to_dom_id(), Msg::ResetClicked),
+            browser::on_input(&Id::Duration, Msg::MaxDurationChanged),
+            browser::on_click(&Id::Reset, Msg::ResetClicked),
             browser::interval_effect(
                 Duration::from_millis(100),
                 Msg::GotTime,
