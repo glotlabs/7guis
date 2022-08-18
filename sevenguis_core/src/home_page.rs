@@ -2,16 +2,13 @@ use maud::html;
 use polyester::browser;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
-use polyester::browser::ToDomId;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Model {
-    pub count: isize,
-}
+pub struct Model {}
 
 pub struct HomePage {}
 
@@ -21,7 +18,7 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
     }
 
     fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
-        let model = Model { count: 0 };
+        let model = Model {};
 
         let effects = vec![];
 
@@ -29,24 +26,11 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
     }
 
     fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
-        vec![
-            browser::on_click(&Id::Increment.to_dom_id(), Msg::Increment),
-            browser::on_click(&Id::Decrement.to_dom_id(), Msg::Decrement),
-        ]
+        vec![]
     }
 
-    fn update(&self, msg: &Msg, model: &mut Model) -> Result<Effects<Msg, CustomEffect>, String> {
-        match msg {
-            Msg::Increment => {
-                model.count += 1;
-                Ok(vec![])
-            }
-
-            Msg::Decrement => {
-                model.count -= 1;
-                Ok(vec![])
-            }
-        }
+    fn update(&self, _msg: &Msg, _model: &mut Model) -> Result<Effects<Msg, CustomEffect>, String> {
+        Ok(vec![])
     }
 
     fn view(&self, model: &Model) -> PageMarkup {
@@ -57,19 +41,9 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
     }
 }
 
-#[derive(strum_macros::Display, polyester_macro::ToDomId)]
-#[strum(serialize_all = "kebab-case")]
-enum Id {
-    Increment,
-    Decrement,
-}
-
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub enum Msg {
-    Increment,
-    Decrement,
-}
+pub enum Msg {}
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -79,7 +53,6 @@ fn view_head() -> maud::Markup {
     html! {
         title { "Home page" }
         link rel="stylesheet" href="./app.css";
-        script defer type="module" src="./home_page.js" {}
     }
 }
 
