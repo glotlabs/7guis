@@ -1,9 +1,7 @@
 use maud::html;
 use polyester::browser;
-use polyester::browser::dom;
 use polyester::browser::DomId;
 use polyester::browser::Effects;
-use polyester::browser::SubscriptionMsg;
 use polyester::browser::ToDomId;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
