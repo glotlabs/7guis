@@ -55,39 +55,15 @@ impl Page<Model, Msg, CustomEffect> for FlightPage {
         match model {
             Model::Drafting(_) => {
                 vec![
-                    browser::on_change(
-                        &Id::FlightType.to_dom_id(),
-                        SubscriptionMsg::effectful(
-                            Msg::FlightTypeChanged,
-                            dom::element_value(&Id::FlightType.to_dom_id()),
-                        ),
-                    ),
-                    browser::on_change(
-                        &Id::StartDate.to_dom_id(),
-                        SubscriptionMsg::effectful(
-                            Msg::StartDateChanged,
-                            dom::element_value_raw(&Id::StartDate.to_dom_id()),
-                        ),
-                    ),
-                    browser::on_change(
-                        &Id::ReturnDate.to_dom_id(),
-                        SubscriptionMsg::effectful(
-                            Msg::ReturnDateChanged,
-                            dom::element_value_raw(&Id::ReturnDate.to_dom_id()),
-                        ),
-                    ),
-                    browser::on_click(
-                        &Id::Book.to_dom_id(),
-                        SubscriptionMsg::pure(Msg::BookFlight),
-                    ),
+                    browser::on_change(&Id::FlightType.to_dom_id(), Msg::FlightTypeChanged),
+                    browser::on_change_string(&Id::StartDate.to_dom_id(), Msg::StartDateChanged),
+                    browser::on_change_string(&Id::ReturnDate.to_dom_id(), Msg::ReturnDateChanged),
+                    browser::on_click(&Id::Book.to_dom_id(), Msg::BookFlight),
                 ]
             }
 
             Model::Booked(_) => {
-                vec![browser::on_click(
-                    &Id::Reset.to_dom_id(),
-                    SubscriptionMsg::pure(Msg::Reset),
-                )]
+                vec![browser::on_click(&Id::Reset.to_dom_id(), Msg::Reset)]
             }
         }
     }
@@ -109,11 +85,7 @@ impl Page<Model, Msg, CustomEffect> for FlightPage {
             }
 
             (Model::Drafting(draft), Msg::StartDateChanged(value)) => {
-                let date_str: String = value
-                    .parse()
-                    .map_err(|err| format!("Failed to parse start date: {}", err))?;
-
-                draft.start_date = NaiveDate::parse_from_str(&date_str, "%Y-%m-%d")
+                draft.start_date = NaiveDate::parse_from_str(value, "%Y-%m-%d")
                     .map(Date::Valid)
                     .unwrap_or_else(|_| Date::Invalid(value.to_string()));
 
@@ -121,11 +93,7 @@ impl Page<Model, Msg, CustomEffect> for FlightPage {
             }
 
             (Model::Drafting(draft), Msg::ReturnDateChanged(value)) => {
-                let date_str: String = value
-                    .parse()
-                    .map_err(|err| format!("Failed to parse return date: {}", err))?;
-
-                draft.return_date = NaiveDate::parse_from_str(&date_str, "%Y-%m-%d")
+                draft.return_date = NaiveDate::parse_from_str(value, "%Y-%m-%d")
                     .map(Date::Valid)
                     .unwrap_or_else(|_| Date::Invalid(value.to_string()));
 
@@ -172,8 +140,8 @@ enum Id {
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
     FlightTypeChanged(Value),
-    StartDateChanged(Value),
-    ReturnDateChanged(Value),
+    StartDateChanged(String),
+    ReturnDateChanged(String),
     BookFlight,
     Reset,
 }

@@ -46,25 +46,18 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
 
     fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_input(
-                &Id::Duration.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::MaxDurationChanged,
-                    dom::element_value(&Id::Duration.to_dom_id()),
-                ),
-            ),
-            browser::on_click(
-                &Id::Reset.to_dom_id(),
-                SubscriptionMsg::pure(Msg::ResetClicked),
-            ),
-            browser::interval(
+            browser::on_input(&Id::Duration.to_dom_id(), Msg::MaxDurationChanged),
+            browser::on_click(&Id::Reset.to_dom_id(), Msg::ResetClicked),
+            browser::interval_effect(
                 Duration::from_millis(100),
-                SubscriptionMsg::effectful(Msg::GotTime, time_effect::current_time()),
+                Msg::GotTime,
+                time_effect::current_time(),
             ),
             if model.elapsed < model.max_duration {
-                browser::interval(
+                browser::interval_effect(
                     Duration::from_millis(200),
-                    SubscriptionMsg::effectful(Msg::OnTick, time_effect::current_time()),
+                    Msg::OnTick,
+                    time_effect::current_time(),
                 )
             } else {
                 browser::no_subscription()
@@ -79,9 +72,9 @@ impl Page<Model, Msg, CustomEffect> for TimerPage {
                     model.previous_time = model.current_time;
                 }
 
-                let max_duration = value
-                    .parse::<u64>()
-                    .unwrap_or(model.max_duration.as_millis() as u64);
+                let max_duration: u64 = value
+                    .parse()
+                    .map_err(|err| format!("Failed to parse max duration: {}", err))?;
 
                 model.max_duration = Duration::from_millis(max_duration);
                 if model.elapsed > model.max_duration {
@@ -149,7 +142,7 @@ enum Id {
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
     GotTime(Value),
-    MaxDurationChanged(Value),
+    MaxDurationChanged(String),
     OnTick(Value),
     ResetClicked,
 }
@@ -200,7 +193,7 @@ fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
                     }
                 }
 
-                button id=(Id::Duration) class="mt-4 w-32 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
+                button id=(Id::Reset) class="mt-4 w-32 text-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="button" {
                     "Reset"
                 }
             }

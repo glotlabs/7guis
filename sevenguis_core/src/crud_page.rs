@@ -74,37 +74,13 @@ impl Page<Model, Msg, CustomEffect> for CrudPage {
 
     fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_input(
-                &Id::Filter.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::FilterChanged,
-                    dom::element_value_raw(&Id::Filter.to_dom_id()),
-                ),
-            ),
-            browser::on_input(
-                &Id::FirstName.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::FirstNameChanged,
-                    dom::element_value_raw(&Id::FirstName.to_dom_id()),
-                ),
-            ),
-            browser::on_input(
-                &Id::LastName.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::LastNameChanged,
-                    dom::element_value_raw(&Id::LastName.to_dom_id()),
-                ),
-            ),
-            browser::on_input(
-                &Id::People.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::SelectedPersonChanged,
-                    dom::element_value(&Id::People.to_dom_id()),
-                ),
-            ),
-            browser::on_click(&Id::Create.to_dom_id(), SubscriptionMsg::pure(Msg::Create)),
-            browser::on_click(&Id::Update.to_dom_id(), SubscriptionMsg::pure(Msg::Update)),
-            browser::on_click(&Id::Delete.to_dom_id(), SubscriptionMsg::pure(Msg::Delete)),
+            browser::on_input(&Id::Filter.to_dom_id(), Msg::FilterChanged),
+            browser::on_input(&Id::FirstName.to_dom_id(), Msg::FirstNameChanged),
+            browser::on_input(&Id::LastName.to_dom_id(), Msg::LastNameChanged),
+            browser::on_change(&Id::People.to_dom_id(), Msg::SelectedPersonChanged),
+            browser::on_click(&Id::Create.to_dom_id(), Msg::Create),
+            browser::on_click(&Id::Update.to_dom_id(), Msg::Update),
+            browser::on_click(&Id::Delete.to_dom_id(), Msg::Delete),
         ]
     }
 
@@ -198,10 +174,10 @@ impl Page<Model, Msg, CustomEffect> for CrudPage {
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
-    FilterChanged(Value),
+    FilterChanged(String),
     SelectedPersonChanged(Value),
-    FirstNameChanged(Value),
-    LastNameChanged(Value),
+    FirstNameChanged(String),
+    LastNameChanged(String),
     Create,
     Update,
     Delete,

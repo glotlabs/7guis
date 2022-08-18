@@ -36,20 +36,8 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
 
     fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_input(
-                &Id::Celsius.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::CelsiusChanged,
-                    dom::element_value_raw(&Id::Celsius.to_dom_id()),
-                ),
-            ),
-            browser::on_input(
-                &Id::Fahrenheit.to_dom_id(),
-                SubscriptionMsg::effectful(
-                    Msg::FahrenheitChanged,
-                    dom::element_value_raw(&Id::Fahrenheit.to_dom_id()),
-                ),
-            ),
+            browser::on_input(&Id::Celsius.to_dom_id(), Msg::CelsiusChanged),
+            browser::on_input(&Id::Fahrenheit.to_dom_id(), Msg::FahrenheitChanged),
         ]
     }
 
@@ -109,8 +97,8 @@ enum Id {
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Msg {
-    CelsiusChanged(browser::Value),
-    FahrenheitChanged(browser::Value),
+    CelsiusChanged(String),
+    FahrenheitChanged(String),
 }
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]

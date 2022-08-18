@@ -31,14 +31,8 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
 
     fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
         vec![
-            browser::on_click(
-                &Id::Increment.to_dom_id(),
-                SubscriptionMsg::pure(Msg::Increment),
-            ),
-            browser::on_click(
-                &Id::Decrement.to_dom_id(),
-                SubscriptionMsg::pure(Msg::Decrement),
-            ),
+            browser::on_click(&Id::Increment.to_dom_id(), Msg::Increment),
+            browser::on_click(&Id::Decrement.to_dom_id(), Msg::Decrement),
         ]
     }
 
