@@ -33,7 +33,6 @@ echo
 echo "Building web assets..."
 (
     cd sevenguis_web
-    npx tailwindcss --minify -i ./css/app.css -o ../dist/app.css
     npm run build-dev
     cp -rf wasm ../dist/
 )

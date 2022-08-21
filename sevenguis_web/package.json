@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-      "build-dev": "esbuild src/*_page.ts --bundle --format=esm --target=es2020 --outdir=../dist/"
+      "build-dev": "npm run build-js-dev && npm run build-css-dev",
+      "build-js-dev": "esbuild src/*_page.ts --bundle --format=esm --target=es2020 --outdir=../dist/",
+      "build-css-dev": "tailwindcss -i css/app.css -o ../dist/app.css"
     },
     "repository": {
       "type": "git",
