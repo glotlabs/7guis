@@ -32,12 +32,12 @@ pub struct Model {
 
 pub struct CrudPage {}
 
-impl Page<Model, Msg, CustomEffect> for CrudPage {
+impl Page<Model, Msg, AppEffect> for CrudPage {
     fn id(&self) -> DomId {
         DomId::new("sevenguis")
     }
 
-    fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
+    fn init(&self) -> (Model, Effects<Msg, AppEffect>) {
         let model = Model {
             next_id: 4,
             selected_id: 1,
@@ -70,7 +70,7 @@ impl Page<Model, Msg, CustomEffect> for CrudPage {
         (model, effects)
     }
 
-    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
+    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, AppEffect> {
         vec![
             browser::on_input(&Id::Filter, Msg::FilterChanged),
             browser::on_input(&Id::FirstName, Msg::FirstNameChanged),
@@ -82,7 +82,7 @@ impl Page<Model, Msg, CustomEffect> for CrudPage {
         ]
     }
 
-    fn update(&self, msg: &Msg, model: &mut Model) -> Result<Effects<Msg, CustomEffect>, String> {
+    fn update(&self, msg: &Msg, model: &mut Model) -> Result<Effects<Msg, AppEffect>, String> {
         match msg {
             Msg::FilterChanged(value) => {
                 let filter: String = value
@@ -183,7 +183,7 @@ pub enum Msg {
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub enum CustomEffect {}
+pub enum AppEffect {}
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 pub struct Person {

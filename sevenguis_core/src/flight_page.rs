@@ -37,19 +37,19 @@ impl FlightPage {
     }
 }
 
-impl Page<Model, Msg, CustomEffect> for FlightPage {
+impl Page<Model, Msg, AppEffect> for FlightPage {
     fn id(&self) -> DomId {
         DomId::new("sevenguis")
     }
 
-    fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
+    fn init(&self) -> (Model, Effects<Msg, AppEffect>) {
         let model = self.initial_model();
         let effects = vec![];
 
         (model, effects)
     }
 
-    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
+    fn subscriptions(&self, model: &Model) -> browser::Subscriptions<Msg, AppEffect> {
         match model {
             Model::Drafting(_) => {
                 vec![
@@ -70,7 +70,7 @@ impl Page<Model, Msg, CustomEffect> for FlightPage {
         &self,
         msg: &Msg,
         mut model: &mut Model,
-    ) -> Result<Effects<Msg, CustomEffect>, String> {
+    ) -> Result<Effects<Msg, AppEffect>, String> {
         match (&mut model, msg) {
             (Model::Drafting(draft), Msg::FlightTypeChanged(value)) => {
                 let flight_type = value
@@ -146,7 +146,7 @@ pub enum Msg {
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub enum CustomEffect {}
+pub enum AppEffect {}
 
 fn view_head() -> maud::Markup {
     html! {

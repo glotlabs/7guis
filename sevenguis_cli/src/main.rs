@@ -60,7 +60,7 @@ fn posix_now() -> time::Posix {
     time::Posix::from_millis(millis as i128)
 }
 
-fn render_html<Model, Msg, CustomMsg>(page: impl Page<Model, Msg, CustomMsg>) {
+fn render_html<Model, Msg, AppEffect>(page: impl Page<Model, Msg, AppEffect>) {
     let (model, _effects) = page.init();
     let page = page.view(&model);
     println!("{}", page.to_markup().into_string());

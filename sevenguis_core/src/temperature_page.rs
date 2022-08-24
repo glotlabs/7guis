@@ -16,12 +16,12 @@ pub struct Model {
 
 pub struct TemperaturePage {}
 
-impl Page<Model, Msg, CustomEffect> for TemperaturePage {
+impl Page<Model, Msg, AppEffect> for TemperaturePage {
     fn id(&self) -> DomId {
         DomId::new("sevenguis")
     }
 
-    fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
+    fn init(&self) -> (Model, Effects<Msg, AppEffect>) {
         let model = Model {
             celsius: None,
             fahrenheit: None,
@@ -32,14 +32,14 @@ impl Page<Model, Msg, CustomEffect> for TemperaturePage {
         (model, effects)
     }
 
-    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
+    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, AppEffect> {
         vec![
             browser::on_input(&Id::Celsius, Msg::CelsiusChanged),
             browser::on_input(&Id::Fahrenheit, Msg::FahrenheitChanged),
         ]
     }
 
-    fn update(&self, msg: &Msg, model: &mut Model) -> Result<Effects<Msg, CustomEffect>, String> {
+    fn update(&self, msg: &Msg, model: &mut Model) -> Result<Effects<Msg, AppEffect>, String> {
         match msg {
             Msg::CelsiusChanged(value) => {
                 let str_value: String = value
@@ -101,7 +101,7 @@ pub enum Msg {
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub enum CustomEffect {}
+pub enum AppEffect {}
 
 fn view_head() -> maud::Markup {
     html! {

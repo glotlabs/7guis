@@ -12,12 +12,12 @@ pub struct Model {}
 
 pub struct HomePage {}
 
-impl Page<Model, Msg, CustomEffect> for HomePage {
+impl Page<Model, Msg, AppEffect> for HomePage {
     fn id(&self) -> DomId {
         DomId::new("sevenguis")
     }
 
-    fn init(&self) -> (Model, Effects<Msg, CustomEffect>) {
+    fn init(&self) -> (Model, Effects<Msg, AppEffect>) {
         let model = Model {};
 
         let effects = vec![];
@@ -25,11 +25,11 @@ impl Page<Model, Msg, CustomEffect> for HomePage {
         (model, effects)
     }
 
-    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, CustomEffect> {
+    fn subscriptions(&self, _model: &Model) -> browser::Subscriptions<Msg, AppEffect> {
         vec![]
     }
 
-    fn update(&self, _msg: &Msg, _model: &mut Model) -> Result<Effects<Msg, CustomEffect>, String> {
+    fn update(&self, _msg: &Msg, _model: &mut Model) -> Result<Effects<Msg, AppEffect>, String> {
         Ok(vec![])
     }
 
@@ -47,7 +47,7 @@ pub enum Msg {}
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub enum CustomEffect {}
+pub enum AppEffect {}
 
 fn view_head() -> maud::Markup {
     html! {
