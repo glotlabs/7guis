@@ -63,31 +63,31 @@ fn view_body(page_id: &browser::DomId, _model: &Model) -> maud::Markup {
 
             ul class="mt-4" {
                 li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/counter" {
+                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/counter/" {
                         "Counter"
                     }
                 }
 
                 li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/temperature" {
+                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/temperature/" {
                         "Temperature Converter"
                     }
                 }
 
                 li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/flight" {
+                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/flight/" {
                         "Flight Booker"
                     }
                 }
 
                 li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/timer" {
+                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/timer/" {
                         "Timer"
                     }
                 }
 
                 li {
-                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/crud" {
+                    a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="/crud/" {
                         "CRUD"
                     }
                 }
