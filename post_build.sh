@@ -16,12 +16,14 @@ fi
 
 
 if [[ "$event" == "after_asset_hash" || "$env" == "dev" ]]; then
+    mkdir -p dist/{counter,temperature,timer,crud,flight}
+
     # Generate html
     ./target/$target/sevenguis_cli home_page > dist/index.html
-    ./target/$target/sevenguis_cli counter_page > dist/counter.html
-    ./target/$target/sevenguis_cli temperature_page > dist/temperature.html
-    ./target/$target/sevenguis_cli timer_page > dist/timer.html
-    ./target/$target/sevenguis_cli crud_page > dist/crud.html
-    ./target/$target/sevenguis_cli flight_page > dist/flight.html
+    ./target/$target/sevenguis_cli counter_page > dist/counter/index.html
+    ./target/$target/sevenguis_cli temperature_page > dist/temperature/index.html
+    ./target/$target/sevenguis_cli timer_page > dist/timer/index.html
+    ./target/$target/sevenguis_cli crud_page > dist/crud/index.html
+    ./target/$target/sevenguis_cli flight_page > dist/flight/index.html
 fi
 
