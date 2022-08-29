@@ -3,7 +3,7 @@ import { Polyester } from "polyester";
 import { posixFromMilliseconds } from "polyester/src/time";
 
 (async () => {
-  await init("./wasm/sevenguis_bg.wasm");
+  await init("/wasm/sevenguis_bg.wasm");
 
   const currentTime = posixFromMilliseconds(Date.now());
 
