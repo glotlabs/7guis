@@ -66,11 +66,7 @@ impl Page<Model, Msg, AppEffect> for FlightPage {
         }
     }
 
-    fn update(
-        &self,
-        msg: &Msg,
-        mut model: &mut Model,
-    ) -> Result<Effects<Msg, AppEffect>, String> {
+    fn update(&self, msg: &Msg, mut model: &mut Model) -> Result<Effects<Msg, AppEffect>, String> {
         match (&mut model, msg) {
             (Model::Drafting(draft), Msg::FlightTypeChanged(value)) => {
                 let flight_type = value
@@ -151,8 +147,8 @@ pub enum AppEffect {}
 fn view_head() -> maud::Markup {
     html! {
         title { "Flight booker" }
-        link rel="stylesheet" href="./app.css";
-        script defer type="module" src="./flight_page.js" {}
+        link rel="stylesheet" href="/app.css";
+        script defer type="module" src="/flight_page.js" {}
     }
 }
 

@@ -106,8 +106,8 @@ pub enum AppEffect {}
 fn view_head() -> maud::Markup {
     html! {
         title { "Temperature converter - polyester" }
-        link rel="stylesheet" href="./app.css";
-        script defer type="module" src="./temperature_page.js" {}
+        link rel="stylesheet" href="/app.css";
+        script defer type="module" src="/temperature_page.js" {}
     }
 }
 

@@ -52,7 +52,7 @@ pub enum AppEffect {}
 fn view_head() -> maud::Markup {
     html! {
         title { "Home page" }
-        link rel="stylesheet" href="./app.css";
+        link rel="stylesheet" href="/app.css";
     }
 }
 

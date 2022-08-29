@@ -78,8 +78,8 @@ pub enum AppEffect {}
 fn view_head() -> maud::Markup {
     html! {
         title { "Home page" }
-        link rel="stylesheet" href="./app.css";
-        script defer type="module" src="./counter_page.js" {}
+        link rel="stylesheet" href="/app.css";
+        script defer type="module" src="/counter_page.js" {}
     }
 }
 

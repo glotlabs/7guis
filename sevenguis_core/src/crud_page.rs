@@ -210,8 +210,8 @@ impl Form {
 fn view_head() -> maud::Markup {
     html! {
         title { "Crud" }
-        link rel="stylesheet" href="./app.css";
-        script defer type="module" src="./crud_page.js" {}
+        link rel="stylesheet" href="/app.css";
+        script defer type="module" src="/crud_page.js" {}
     }
 }
 
